@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View</title>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="${'/view'}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" th:each="item : ${listCat}" th:href="${'/view/category/'+item.category}"><span th:text="${item.category}"></span></a>
+                    </div>
+                </li>
+
+            </ul>
+
+            <form class="form-inline" th:action="@{/search}" method="get">
+                <input class="form-control mr-sm-2" type="search" th:name="result" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span th:utext="${userName}" class="float-right"></span>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="${'/logout'}"><span th:text="logout"></span></a>
+                </div>
+            </li>
+
+        </ul>
+
+    </nav>
+    <div class="row justify-content-center" id="app">
+        <div class="col-sm-3 col-md-3" th:each="item: ${listItems}">
+
+            <!--<a :href="'/view/item/' + item.id"><h3>{{ item.name }}</h3></a>-->
+            <!--<br><br>-->
+            <!--<p>Category: {{item.category}}</p>-->
+            <!--<p>Amount: {{item.amount}}</p>-->
+            <!--<p class="pull-right">Price: {{item.price}}</p>-->
+
+            <a th:href="${'/view/item/' + item.id}"><h3 th:text="${item.name}"></h3></a>
+            <br>
+            <img th:src="@{${'/images/' + item.picName}}" th:alt="${item.picName}" />
+            <br>
+            <p>Category: <span th:text="${item.category}"></span></p>
+            <p>Amount: <span th:text="${item.amount}"></span></p>
+            <p class="pull-right">Price: <span th:text="${item.price}"></span></p>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {items:[]},
+        mounted(){
+            axios.get("http://localhost:8080/api/list")
+                .then(response => (this.items = response.data))
+            .catch(error => console.log(error))
+        }
+
+
+    })
+</script>
+</body>
+</html>

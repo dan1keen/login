@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap..">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.."></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap..."></script>
+</head>
+<body>
+<div class="container">
+
+    <h2>Product Details</h2>
+    <div>
+        <form class="form-horizontal" th:object="${item}" th:action="@{/addOrEdit}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Product name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{name}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Category: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{category}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Amount: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{amount}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Price:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{price}"/>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Picture:</label>
+                <div class="col-sm-10">
+                    <input type="file" name="file" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
